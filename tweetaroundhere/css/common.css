@@ -1,0 +1,77 @@
+@charset "utf-8";
+
+/*----------------------------*/
+/* common */
+/*----------------------------*/
+
+html,body {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: 'Helvetica Neue','Helvetica','Arial',sans-serif;
+	font-size: 120%;
+	line-height: 130%;
+}
+
+h1 {	
+	margin: 0;
+	padding: 0;
+	color: #000066;
+	font-size: 200%;
+	font-family: 'Sansita One', serif;
+	text-shadow: 0px 1px 1px rgba(0,0,0, 0.3);
+	line-height: 50px;
+}
+
+h1 a {
+	color: #000066 !important;
+	text-decoration: none !important;
+}
+
+a:link    { text-decoration: none; }
+a:visited { text-decoration: none; }
+a:hover   { text-decoration: underline; }
+a:active  { text-decoration: none; }
+
+form,
+textarea,
+select,
+input {
+	margin: 0;
+	padding: 0;
+}
+
+ul, ul li {
+	margin: 0;
+	padding: 0;
+}
+
+p {
+	margin: 0;
+	padding: 0;
+}
+
+select {
+	margin: 0;
+	padding: 1px;
+}
+
+input[type="text"] {
+	padding: 4px;
+	color: #cccccc;
+	font-size: 120%;
+	line-height: 120%;
+}
+
+input[type="text"]:focus,
+input.focused {
+	color: #000000;
+}
+
+table th,
+table td {
+	margin: 0;
+	padding: 0;
+}

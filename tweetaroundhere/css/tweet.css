@@ -1,0 +1,74 @@
+@charset "utf-8";
+
+/*----------------------------*/
+/* jtweetsanywhere(overwrite) */
+/*----------------------------*/
+
+#jTweetsAnywhere {
+	padding-top: 1em;
+	padding-bottom: 1em;
+}
+
+.jta-tweet-list-item {
+	background-color: #FFFFFF;
+}
+
+.jta-tweet-list-item-window {
+	padding: 10px;
+	width: 380px; /* 400px -20px(padding) */
+}
+
+.jta-tweet-list-item-here {
+	background: #FFFFFF;
+  border-bottom: 1px solid #E4E4E4;
+  padding: 8px 0px 8px 0px;
+	overflow: hidden;
+}
+
+a.jta-tweet-location-link-here {
+	padding: 1px 2px;
+	/*border: 1px solid #FF0000;*/
+	color: #FF0000;
+	font-size: 80%;
+	border-radius: 2px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	text-decoration: none;
+}
+
+a.jta-tweet-location-link-here:hover {
+	background-color: #FF0000;
+	/*border: 1px solid #FF0000;*/
+	color: #FFFFFF;
+}
+
+.jta-tweet-list-autorefresh-trigger {
+}
+
+.jta-tweet-list-autorefresh-trigger:hover {
+	color: white;
+	background-color: #999999;
+	cursor: pointer;
+}
+
+.jta-tweet-list-controls-button {
+}
+
+.jta-tweet-list-controls-button-more {
+	margin-bottom: 2px;
+}
+
+.jta-tweet-list-controls-button:hover {
+	color: white;
+	background-color: #999999;
+	cursor: pointer;
+}
+
+.jta-tweet-list-controls {
+	margin-bottom: 1em;
+	text-align: center;
+}
+
+#gmap-container .jta-tweet-location {
+	display: none;
+}
