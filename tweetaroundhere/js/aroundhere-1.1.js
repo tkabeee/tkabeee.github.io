@@ -298,35 +298,70 @@ Demo.twsearch = function(query, lat, lng, within, units, rpp){
     // console.log(json);
     for(var i in data.statuses){
       // console.log(data.statuses[i]);
-      console.log(data.statuses[i].text);
+      // console.log('name: '+data.statuses[i].user.name);
+      // console.log('screen_name: @'+data.statuses[i].user.screen_name);
+      // console.log('created_at: '+data.statuses[i].created_at);
+      // console.log('text: '+data.statuses[i].text);
     }
+    Demo.twrender(data);
   });
+};
+Demo.twrender = function(data){
+  var $container = $('#tweets');
+  var ol = document.createElement('ol');
+  ol.className = 'stream-list';
 
-  // $('#tweets').jTweetsAnywhere({
+  for(var i in data.statuses){
+    var li = document.createElement('li');
+    var wrapDiv = document.createElement('div');
+    var contentDiv = document.createElement('div');
+    var headerDiv = document.createElement('div');
+    var profAnchor = document.createElement('a');
+    var profImg = document.createElement('img');
+    var fullName = document.createElement('strong');
+    var userName = document.createElement('span');
+    var userNameStrike = document.createElement('s');
+    var userNameBold = document.createElement('b');
+    var timeAnchor = document.createElement('a');
+    var textParag = document.createElement('p');
 
-  //   searchParams: ["q=" + decodeURI(query), "geocode=" + lat + "," + lng + "," + within + units],
-  //   count: rpp,
-  //   showTweetFeed: {
-  //     showTimestamp: {
-  //       refreshInterval: 60
-  //     },
-  //     showSource:          true,
-  //     showGeolocation:     true,
-  //     autorefresh: {
-  //     mode: 'trigger-insert',
-  //     interval: 10
-  //     },
-  //     paging: { mode: 'more' }
-  //   },
-  //   onDataRequestHandler: function(stats, options) {
-  //     if (stats.dataRequestCount < 10) {
-  //       return true;
-  //     } else {
-  //       stopAutorefresh(options);
-  //       //alert("To avoid struggling with Twitter's rate limit, we stop loading data after 10 API calls.");
-  //     }
-  //   }
-  // });
+    profImg.className = 'profile-avatar';
+    profImg.src = data.statuses[i].user.profile_image_url;
+
+    fullName.appendChild(document.createTextNode(data.statuses[i].user.name));
+    fullName.className = 'fullname';
+
+    userNameStrike.appendChild(document.createTextNode('@'));
+    userNameBold.appendChild(document.createTextNode(data.statuses[i].user.screen_name));
+    userName.appendChild(userNameStrike);
+    userName.appendChild(userNameBold);
+    userName.className = 'username';
+
+    profAnchor.appendChild(profImg);
+    profAnchor.appendChild(fullName);
+    profAnchor.appendChild(userName);
+    profAnchor.className = 'account-group';
+    profAnchor.href = 'http://twitter.com/' + data.statuses[i].user.screen_name;
+
+    headerDiv.appendChild(profAnchor);
+    headerDiv.className = 'stream-item-header';
+
+    textParag.appendChild(document.createTextNode(data.statuses[i].text));
+    textParag.className = 'tweet-text';
+
+    contentDiv.appendChild(headerDiv);
+    contentDiv.appendChild(textParag);
+    contentDiv.className = 'content';
+
+    wrapDiv.appendChild(contentDiv);
+    wrapDiv.className = 'tweet';
+
+    li.appendChild(wrapDiv);
+    li.className = 'stream-list-item';
+
+    ol.appendChild(li);
+  }
+  $container.append(ol);
 };
 /*
 Demo.dpinit = function() {
