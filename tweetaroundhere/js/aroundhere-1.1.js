@@ -346,7 +346,7 @@ Demo.twrender = function(data){
     headerDiv.appendChild(profAnchor);
     headerDiv.className = 'stream-item-header';
 
-    textParag.appendChild(document.createTextNode(data.statuses[i].text));
+    textParag.innerHTML = Demo.twReplace(data.statuses[i].text);
     textParag.className = 'tweet-text';
 
     contentDiv.appendChild(headerDiv);
@@ -362,6 +362,12 @@ Demo.twrender = function(data){
     ol.appendChild(li);
   }
   $container.append(ol);
+};
+Demo.twReplace = function(twt) {
+  twt = twt.replace(/((ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&amp;%@!&#45;\/]))?)/g,'<a href="$1">$1</a>');
+  twt = twt.replace(/(^|\s)(@|＠)(\w+)/g,'$1<a href="http://www.twitter.com/$3">@$3</a>');
+  twt = twt.replace(/(?:^|[^ーー゛゜々ヾヽぁ-ヶ一-龠ａ-ｚＡ-Ｚ０-９a-zA-Z0-9&_/>]+)[#＃]([ー゛゜々ヾヽぁ-ヶ一-龠ａ-ｚＡ-Ｚ０-９a-zA-Z0-9_]*[ー゛゜々ヾヽぁ-ヶ一-龠ａ-ｚＡ-Ｚ０-９a-zA-Z]+[ー゛゜々ヾヽぁ-ヶ一-龠ａ-ｚＡ-Ｚ０-９a-zA-Z0-9_]*)/ig, ' <a href="http://twitter.com/search?q=%23$1">#$1</a>');
+  return twt;
 };
 /*
 Demo.dpinit = function() {
