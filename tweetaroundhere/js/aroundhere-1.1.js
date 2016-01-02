@@ -154,8 +154,8 @@ Demo.setDragEvent = function() {
 };
 Demo.init = function() {
   Tws.query  = (Tws.query)  ? Tws.query  : "";
-  Tws.lat    = (Tws.lat)    ? Tws.lat    : 38.268215;
-  Tws.lng    = (Tws.lng)    ? Tws.lng    : 140.8693558;
+  Tws.lat    = (Tws.lat)    ? Tws.lat    : 35.689488;
+  Tws.lng    = (Tws.lng)    ? Tws.lng    : 139.691706;
   Tws.within = (Tws.within) ? Tws.within : 20;
   Tws.units  = (Tws.units)  ? Tws.units  : "km";
   Tws.rpp    = (Tws.rpp)    ? Tws.rpp    : 20;
@@ -315,15 +315,15 @@ Demo.twTimestampFormatter = function (a){
       c = parseInt((b.getTime() - Date.parse(a)) / 1E3),
       d = "";
   if (c < 60) {
-    d += c + " 秒" + (c == 1 ? "" : "") + "前";
+    d += c + "秒" + (c == 1 ? "" : "") + "前";
   }
   else if (c < 3600) {
     b = parseInt((c + 30) / 60);
-    d += b + " 分" + (b == 1 ? "" : "") + "前"
+    d += b + "分" + (b == 1 ? "" : "") + "前"
   }
   else if (c < 86400) {
     b = parseInt((c + 1800) / 3600);
-    d += b + " 時間" + (b == 1 ? "" : "") + "前"
+    d += b + "時間" + (b == 1 ? "" : "") + "前"
   }
   else
   {
