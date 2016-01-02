@@ -393,6 +393,10 @@ th {
   padding: 0;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 html, body {
   margin: 0;
   padding: 0;
@@ -483,51 +487,15 @@ table td {
   padding: 0;
 }
 
-#container {
-  position: relative;
-  z-index: 10;
-  display: -webkit-box;
-  display: -moz-box;
-  padding-top: 51px;
-  width: 100%;
-  height: 100%;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
-#leftSide {
-  overflow-y: scroll;
-  -webkit-box-ordinal-group: 1;
-  -moz-box-ordinal-group: 1;
-  padding: 0 12px;
-  width: 296px;
-  /* 320px -24px(padding) */
-  height: 100%;
-  background: #FFFFFF;
-  text-align: left;
-}
-
-#mainContent {
-  position: relative;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  height: 100%;
-  background-color: #A5BFDD;
-  -webkit-box-ordinal-group: 2;
-  -moz-box-ordinal-group: 2;
-}
-
 /*---------------
  * header
  ---------------*/
 header {
-  position: absolute;
+  position: fixed;
   z-index: 1000;
   overflow: hidden;
   width: 100%;
-  height: 50px;
+  height: 51px;
   background-color: #FFFFFF;
   border-bottom: 1px #DEE4EB solid;
 }
@@ -557,11 +525,50 @@ header .share {
 }
 
 /*---------------
+ * #container
+ ---------------*/
+#container {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-flow: row;
+  flex-flow: row;
+  position: relative;
+  z-index: 10;
+  padding-top: 51px;
+  width: 100%;
+  height: 100%;
+}
+
+/*---------------
  * #leftSide
  ---------------*/
+#leftSide {
+  -webkit-flex: 0 0 320px;
+  flex: 0 0 320px;
+  -webkit-order: 1;
+  order: 1;
+  overflow-y: scroll;
+  padding: 0 12px;
+  width: 296px;
+  /* 320px -24px(padding) */
+  height: 100%;
+  background: #FFFFFF;
+  text-align: left;
+}
+
 /*---------------
  * #mainContent
  ---------------*/
+#mainContent {
+  position: relative;
+  -webkit-flex: 1 1 auto;
+  flex: 1 1 auto;
+  -webkit-order: 2;
+  order: 2;
+  height: 100%;
+  background-color: #A5BFDD;
+}
+
 #positionInfo {
   position: absolute;
   top: 6px;
