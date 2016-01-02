@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 /*---------------
  * header
  ---------------*/
@@ -68,11 +70,91 @@ header {
   -webkit-order: 1;
   order: 1;
   overflow-y: scroll;
-  padding: 0 12px;
+  padding: 0 4px 0 0;
   width: 296px; /* 320px -24px(padding) */
   height: 100%;
-  background: #FFFFFF;
+  background: #F5F8FA;
   text-align: left;
+}
+
+.stream-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.stream-list-item {
+
+  &:after,
+  > div:after {
+    content: ' ';
+    display: table;
+    clear: both;
+  }
+
+  .tweet {
+    padding: 9px 12px;
+    border-bottom: 1px solid #E1E8ED;
+    background-color: #fff;
+
+    .time {
+
+      &:before {
+        content: ' ';
+      }
+
+      color: #8899A6;
+
+      a {
+        color: #8899A6;
+      }
+    }
+  }
+
+  .content {
+    margin-left: 58px;
+  }
+
+  .profile-avatar {
+    float: left;
+    margin-left: -58px;
+    width: 48px;
+    height: 48px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+  }
+}
+
+.stream-item-header {
+
+  .account-group {
+    color: #8899A6;
+
+    &:hover {
+      text-decoration: none;
+
+      .fullname {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .fullname {
+    font-weight: bold;
+    color: #292F33;
+  }
+
+  .username {
+    font-weight: normal;
+
+    &:before {
+      content: ' ';
+    }
+
+    b {
+      font-weight: normal;
+    }
+  }
 }
 
 

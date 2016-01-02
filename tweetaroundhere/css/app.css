@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 /**
  * 1. Set default font family to sans-serif.
@@ -405,7 +406,7 @@ html, body {
 }
 
 body {
-  font-family: 'Helvetica Neue','Helvetica','Arial',sans-serif;
+  font-family: Arial,"ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro",Osaka,"メイリオ",Meiryo,"ＭＳ Ｐゴシック","MS PGothic",sans-serif;
   font-size: 120%;
   line-height: 130%;
 }
@@ -450,11 +451,11 @@ input {
   padding: 0;
 }
 
-ul {
+ul, ol {
   margin: 0;
   padding: 0;
 }
-ul li {
+ul li, ol li {
   margin: 0;
   padding: 0;
 }
@@ -485,6 +486,10 @@ table th,
 table td {
   margin: 0;
   padding: 0;
+}
+
+s {
+  text-decoration: none;
 }
 
 /*---------------
@@ -548,12 +553,73 @@ header .share {
   -webkit-order: 1;
   order: 1;
   overflow-y: scroll;
-  padding: 0 12px;
+  padding: 0 4px 0 0;
   width: 296px;
   /* 320px -24px(padding) */
   height: 100%;
-  background: #FFFFFF;
+  background: #F5F8FA;
   text-align: left;
+}
+
+.stream-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.stream-list-item:after,
+.stream-list-item > div:after {
+  content: ' ';
+  display: table;
+  clear: both;
+}
+.stream-list-item .tweet {
+  padding: 9px 12px;
+  border-bottom: 1px solid #E1E8ED;
+  background-color: #fff;
+}
+.stream-list-item .tweet .time {
+  color: #8899A6;
+}
+.stream-list-item .tweet .time:before {
+  content: ' ';
+}
+.stream-list-item .tweet .time a {
+  color: #8899A6;
+}
+.stream-list-item .content {
+  margin-left: 58px;
+}
+.stream-list-item .profile-avatar {
+  float: left;
+  margin-left: -58px;
+  width: 48px;
+  height: 48px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.stream-item-header .account-group {
+  color: #8899A6;
+}
+.stream-item-header .account-group:hover {
+  text-decoration: none;
+}
+.stream-item-header .account-group:hover .fullname {
+  text-decoration: underline;
+}
+.stream-item-header .fullname {
+  font-weight: bold;
+  color: #292F33;
+}
+.stream-item-header .username {
+  font-weight: normal;
+}
+.stream-item-header .username:before {
+  content: ' ';
+}
+.stream-item-header .username b {
+  font-weight: normal;
 }
 
 /*---------------
