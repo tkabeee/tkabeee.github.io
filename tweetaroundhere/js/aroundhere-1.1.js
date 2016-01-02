@@ -432,20 +432,19 @@ Tws.setDistance = function() {
 
 $(document).ready(function(){
   var inputQuery = $("#query");
-  var placeHolder = "検索ワード";
-    Tws.setSearchItem();
-    Tws.setDistance();
+  // var placeHolder = "例）あけおめ";
 
-    $.getJSON("js/pos.json", function(data){
-        var rand = Math.floor(Math.random()*data.count);
-        if(!Tws.lat) Tws.lat = data.pref[rand].lat;
-        if(!Tws.lng) Tws.lng = data.pref[rand].lng;
-    });
+  Tws.setSearchItem();
+  Tws.setDistance();
+
+  $.getJSON("js/pos.json", function(data){
+      var rand = Math.floor(Math.random()*data.count);
+      if(!Tws.lat) Tws.lat = data.pref[rand].lat;
+      if(!Tws.lng) Tws.lng = data.pref[rand].lng;
+  });
 
   if(Tws.query) {
     inputQuery.val(decodeURI(Tws.query));
-  } else {
-    inputQuery.val(placeHolder);
   }
   if(Tws.rpp) {
     $("#rpp").val(Tws.rpp);
@@ -476,37 +475,37 @@ $(document).ready(function(){
   });
   $(":input").keydown(function(e) {
     if (e.keyCode == 13) {
-      var allInputs = $(":input:visible");
-      for(i=0; i < allInputs.length; i++){
-        if( allInputs[i].id == e.currentTarget.id){
-          if(!allInputs[i+1]) return false;
-          allInputs[i+1].focus();
-          return false;
-        }
-      }
+      // var allInputs = $(":input:visible");
+      // for(i=0; i < allInputs.length; i++){
+      //   if( allInputs[i].id == e.currentTarget.id){
+      //     if(!allInputs[i+1]) return false;
+      //     allInputs[i+1].focus();
+      //     return false;
+      //   }
+      // }
     }
   });
-  if(inputQuery.val()!==""&&inputQuery.val()!==placeHolder) {
+  if(inputQuery.val() !== "") {
     inputQuery.addClass("focused");
   }
   inputQuery.focus(function(){
     var self = $(this);
-    if(self.val()===placeHolder) {
-      self.val("").addClass("focused");
-    }
+    // if(self.val() === placeHolder) {
+    //   self.val("").addClass("focused");
+    // }
   }).blur(function(){
     var self = $(this);
-    if(self.val()==="") {
-      self.val(placeHolder).removeClass("focused");
-    }
+    // if(self.val() === "") {
+    //   self.val(placeHolder).removeClass("focused");
+    // }
   });
   $("#submit_post").bind("click", function(){
-    if(inputQuery.val()===placeHolder) inputQuery.val("");
+    // if(inputQuery.val() === placeHolder) inputQuery.val("");
     $("form").submit();
   });
   $("#submit_post").keydown("keydown", function(e){
     if (e.keyCode == 13) {
-      if(inputQuery.val()===placeHolder) inputQuery.val("");
+      // if(inputQuery.val() === placeHolder) inputQuery.val("");
       $("form").submit();
     }
   });
