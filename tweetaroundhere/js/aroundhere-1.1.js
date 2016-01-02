@@ -204,83 +204,7 @@ Demo.init = function() {
     Demo.updateZoomLevel(Demo.map.getZoom());
   });
 };
-Demo.twinit = function() {
-  $.extend({
-    tweetDecorator : defaultTweetDecorator,
-    tweetTimestampFormatter : defaultTweetTimestampFormatter,
-    tweetSourceDecorator : defaultTweetSourceDecorator,
-    tweetGeoLocationDecorator : defaultTweetGeoLocationDecorator
-  });
-  defaultTweetDecorator = function (a, b){
-        var c = "";
-        if (b._tweetFeedConfig.showProfileImages) {
-            c += b.tweetProfileImageDecorator(a, b);
-        }
-        if (b.tweetBodyDecorator) {
-            c += b.tweetBodyDecorator(a, b);
-        }
-        c += '<div class="jta-clear">&nbsp;</div>';
-    if (a.geo && a.geo.coordinates) {
-          return '<li class="jta-tweet-list-item-here">' + c + "</li>";
-    } else {
-          return '<li class="jta-tweet-list-item">' + c + "</li>";
-    }
-  };
-  defaultTweetTimestampFormatter = function (a){
-        var b = new Date, c = parseInt((b.getTime() - Date.parse(a)) / 1E3), d = "";
-        if (c < 60) {
-            d += c + " 秒" + (c == 1 ? "" : "") + "前";
-        }
-        else if (c < 3600) {
-            b = parseInt((c + 30) / 60);
-            d += b + " 分" + (b == 1 ? "" : "") + "前"
-        }
-        else if (c < 86400) {
-            b = parseInt((c + 1800) / 3600);
-            d += b + " 時間" + (b == 1 ? "" : "") + "前"
-        }
-        else
-        {
-            a = new Date(a);
-            a.getHours();
-            a.getMinutes();
-            d += ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"][a.getMonth()] + " " + a.getDate();
-            if (a.getFullYear() < b.getFullYear()) {
-                d += ", " + a.getFullYear();
-            }
-            b = parseInt((c + 43200) / 86400);
-            d += " (" + b + " 日" + (b == 1 ? "" : "s") + "前)"
-        }
-        return d;
-  };
-  defaultTweetSourceDecorator = function (a){
-        return '<span class="jta-tweet-source"> <span class="jta-tweet-source-link">' + (a.retweeted_status || a).source.replace(/\&lt\;/gi,
-        "<").replace(/\&gt\;/gi, ">").replace(/\&quot\;/gi, '"') + "から</span></span>"
-  };
-  defaultTweetGeoLocationDecorator = function (a){
-        var b = "";
-        a = a.retweeted_status || a;
-        var c;
-        if (a.geo && a.geo.coordinates) {
-            c = a.geo.coordinates.join();
-        }
-        else if (a.place && a.place.full_name) {
-            c = a.place.full_name;
-        }
-        if (c)
-        {
-            if (a.place && a.place.full_name) {
-                b = a.place.full_name;
-        b = '<span class="jta-tweet-location"> from <a class="jta-tweet-location-link" href="' + ("http://maps.google.com/maps?q=" + c) + '" target="_blank">' + b + "</a></span>";
-            }
-      if (a.geo && a.geo.coordinates) {
-        b = "Here!";
-        b = '<span class="jta-tweet-location"> from <a class="jta-tweet-location-link-here" href="javascript:void(0)" onclick="Demo.getTweet($(this).parent().parent().parent().parent().html()); if(Demo.markers)Demo.deleteMarker(Demo.markers); Demo.createMarker(' + a.geo.coordinates + '); Demo.moveCenter(' + a.geo.coordinates + ');">' + b + "</a></span>";
-            }
-        }
-        return b;
-  };
-};
+
 Demo.twsearch = function(query, lat, lng, within, units, rpp){
   var $tweets = $('#tweets');
   $tweets.children().remove();
@@ -306,6 +230,7 @@ Demo.twsearch = function(query, lat, lng, within, units, rpp){
     Demo.twrender(data);
   });
 };
+
 Demo.twrender = function(data){
   var $container = $('#tweets');
   var ol = document.createElement('ol');
@@ -322,7 +247,9 @@ Demo.twrender = function(data){
     var userName = document.createElement('span');
     var userNameStrike = document.createElement('s');
     var userNameBold = document.createElement('b');
+    var timeWrap = document.createElement('small');
     var timeAnchor = document.createElement('a');
+    var timeSpan = document.createElement('span');
     var textParag = document.createElement('p');
 
     profImg.className = 'profile-avatar';
@@ -343,7 +270,18 @@ Demo.twrender = function(data){
     profAnchor.className = 'account-group';
     profAnchor.href = 'http://twitter.com/' + data.statuses[i].user.screen_name;
 
+    timeSpan.appendChild(document.createTextNode(Demo.twTimestampFormatter(data.statuses[i].created_at)));
+    timeSpan.className = 'timestamp';
+
+    timeAnchor.appendChild(timeSpan);
+    timeAnchor.className = 'tweet-timestamp';
+    timeAnchor.href = 'http://twitter.com/' + data.statuses[i].user.screen_name + '/status/' + data.statuses[i].id_str;
+
+    timeWrap.appendChild(timeAnchor);
+    timeWrap.className = 'time';
+
     headerDiv.appendChild(profAnchor);
+    headerDiv.appendChild(timeWrap);
     headerDiv.className = 'stream-item-header';
 
     textParag.innerHTML = Demo.twReplace(data.statuses[i].text);
@@ -363,21 +301,45 @@ Demo.twrender = function(data){
   }
   $container.append(ol);
 };
+
 Demo.twReplace = function(twt) {
   twt = twt.replace(/((ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&amp;%@!&#45;\/]))?)/g,'<a href="$1">$1</a>');
   twt = twt.replace(/(^|\s)(@|＠)(\w+)/g,'$1<a href="http://www.twitter.com/$3">@$3</a>');
   twt = twt.replace(/(?:^|[^ーー゛゜々ヾヽぁ-ヶ一-龠ａ-ｚＡ-Ｚ０-９a-zA-Z0-9&_/>]+)[#＃]([ー゛゜々ヾヽぁ-ヶ一-龠ａ-ｚＡ-Ｚ０-９a-zA-Z0-9_]*[ー゛゜々ヾヽぁ-ヶ一-龠ａ-ｚＡ-Ｚ０-９a-zA-Z]+[ー゛゜々ヾヽぁ-ヶ一-龠ａ-ｚＡ-Ｚ０-９a-zA-Z0-9_]*)/ig, ' <a href="http://twitter.com/search?q=%23$1">#$1</a>');
+  twt = twt.replace(/[\n\r]/g, "<br>");
   return twt;
 };
-/*
-Demo.dpinit = function() {
-  // Datepicker
-  $('.datepicker').datepicker({
-    regional: "ja",
-    dateFormat: 'yy-mm-dd'
-  });
+
+Demo.twTimestampFormatter = function (a){
+  var b = new Date,
+      c = parseInt((b.getTime() - Date.parse(a)) / 1E3),
+      d = "";
+  if (c < 60) {
+    d += c + " 秒" + (c == 1 ? "" : "") + "前";
+  }
+  else if (c < 3600) {
+    b = parseInt((c + 30) / 60);
+    d += b + " 分" + (b == 1 ? "" : "") + "前"
+  }
+  else if (c < 86400) {
+    b = parseInt((c + 1800) / 3600);
+    d += b + " 時間" + (b == 1 ? "" : "") + "前"
+  }
+  else
+  {
+    a = new Date(a);
+    a.getHours();
+    a.getMinutes();
+    if (a.getFullYear() < b.getFullYear()) {
+      d += a.getFullYear() + "年";
+    }
+    d += ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"][a.getMonth()] + a.getDate() + "日";
+    // b = parseInt((c + 43200) / 86400);
+    // d += " (" + b + "日" + (b == 1 ? "" : "s") + "前)"
+  }
+  return d;
 };
-*/
+
 
 Tws.setSearchItem = function() {
   if(location.search.length > 1) {
