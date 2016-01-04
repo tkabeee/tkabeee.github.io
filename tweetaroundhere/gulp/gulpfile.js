@@ -81,7 +81,7 @@ gulp.task("webserver", function(){
 });
 
 gulp.task("default", function(){
+  gulp.start('webserver');
   gulp.start('watch');
   gulp.start('watchify');
-  // gulp.start('webserver');
 });
