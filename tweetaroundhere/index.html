@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
 <meta charset="UTF-8">
 <!--<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=1;">-->
 <title>Tweet Around Here - 特定の場所周辺のツイートを検索</title>
@@ -9,29 +8,29 @@
 <link rel="stylesheet" href="css/app.css" media="all">
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-<script src="http://maps.google.com/maps/api/js?sensor=true"></script>
+<script src="http://maps.google.com/maps/api/js?key=AIzaSyCwukYw-yCa18A3XSxLoYBg8Qnvp9PZPBQ"></script>
 <!-- <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script> -->
 <script src="js/aroundhere-1.1.js"></script>
 <script>
-$(function(){
-  var leftSide = $("#leftSide");
-  var mainContent = $("#mainContent");
-  var mapCanvas = $("#map-canvas");
-  var height;
-  var resizeHeight = function(){
-    height = $("#container").height();
-    leftSide.css("height", height);
-    mainContent.css("height", height);
-    mapCanvas.css("height", height);
-  }
-  if(navigator.userAgent.indexOf("Firefox") != -1){
-    resizeHeight();
-    $("body").css("overflow-y", "hidden");
-    $(window).resize(function(){
-      resizeHeight();
-    });
-  }
-});
+// $(function(){
+//   var leftSide = $("#leftSide");
+//   var mainContent = $("#mainContent");
+//   var mapCanvas = $("#map-canvas");
+//   var height;
+//   var resizeHeight = function(){
+//     height = $("#container").height();
+//     leftSide.css("height", height);
+//     mainContent.css("height", height);
+//     mapCanvas.css("height", height);
+//   }
+//   if(navigator.userAgent.indexOf("Firefox") != -1){
+//     resizeHeight();
+//     $("body").css("overflow-y", "hidden");
+//     $(window).resize(function(){
+//       resizeHeight();
+//     });
+//   }
+// });
 </script>
 <script type="text/javascript">
   var _gaq = _gaq || [];
@@ -44,12 +43,11 @@ $(function(){
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
 </script>
-</head>
-<body>
-
 <header>
   <h1><a href="http://tkabeee.github.io/tweetaroundhere" target="_self">Tweet Around Here</a></h1>
-  <div class="search">
+  <div id="searchBox" class="search">
+<!-- React View -->
+<!--
     <form name="form" method="get">
       半径
       <select id="geocode" name="geocode">
@@ -67,6 +65,7 @@ $(function(){
       <input type="hidden" id="zoom" name="zoom" value="">
       <button id="submit_post"> 検 索 </button>
     </form>
+ -->
   </div>
 <!--
   <div class="share">
@@ -81,13 +80,12 @@ $(function(){
 
   <div id="leftSide">
     <div id="app"></div>
-    <script src="js/build/build.js"></script>
     <div id="tweets">
     </div>
   </div><!-- #leftSide -->
 
   <div id="mainContent">
-    <div id="map-canvas"></div>
+    <div id="mapCanvas"></div>
     <div id="positionInfo">
       <p class="latlng">Lat：<span id="lat"></span>&nbsp;&nbsp;&nbsp;Lng：<span id="lng"></span></p>
       <p class="address"><span id="address">Address 取得中…</span></p>
@@ -96,5 +94,5 @@ $(function(){
   </div><!-- #mainContent -->
 
 </div><!-- #container -->
-</body>
+<script src="js/build/build.js"></script>
 </html>
