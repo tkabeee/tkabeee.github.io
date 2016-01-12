@@ -56,7 +56,9 @@ Demo.updateMarkerPosition = function(latLng) {
   $("#lng").text(latLng.lng().toFixed(6));
   Tws.lat = latLng.lat().toFixed(6);
   Tws.lng = latLng.lng().toFixed(6);
-  Tws.setGeocode(latLng.lat().toFixed(6), latLng.lng().toFixed(6));
+
+  // reactエラー回避の為、一時コメントアウト
+  // Tws.setGeocode(latLng.lat().toFixed(6), latLng.lng().toFixed(6));
 };
 Demo.updateMarkerAddress = function(str) {
   $("#address").text(str);
@@ -162,8 +164,9 @@ Demo.init = function() {
   var Zoom   = (Demo.zoom)  ? Demo.zoom  : 10;
   var LatLng = new google.maps.LatLng(Tws.lat, Tws.lng);
 
-  Tws.setGeocode(Tws.lat, Tws.lng);
-  Demo.map = new google.maps.Map(document.getElementById("map-canvas"), {
+  // React error avoid
+  //Tws.setGeocode(Tws.lat, Tws.lng);
+  Demo.map = new google.maps.Map(document.getElementById("mapCanvas"), {
     zoom:              Zoom,
     center:            LatLng,
     mapTypeControl:    false,
@@ -430,85 +433,88 @@ Tws.setDistance = function() {
   $("#geocode option").eq(num).attr("selected", true);
 };
 
-$(document).ready(function(){
-  var inputQuery = $("#query");
-  // var placeHolder = "例）あけおめ";
+// $(document).ready(function(){
 
-  Tws.setSearchItem();
-  Tws.setDistance();
+//   // 中止
 
-  $.getJSON("js/pos.json", function(data){
-      var rand = Math.floor(Math.random()*data.count);
-      if(!Tws.lat) Tws.lat = data.pref[rand].lat;
-      if(!Tws.lng) Tws.lng = data.pref[rand].lng;
-  });
+//   var inputQuery = $("#query");
+//   // var placeHolder = "例）あけおめ";
 
-  if(Tws.query) {
-    inputQuery.val(decodeURI(Tws.query));
-  }
-  if(Tws.rpp) {
-    $("#rpp").val(Tws.rpp);
-  } else {
-    $("#rpp").val(20);
-  }
-  if(Demo.zoom) {
-    $("#zoom").val(Demo.zoom);
-  } else {
-    $("#zoom").val(10);
-  }
-  if(isMSIE) {
-    setTimeout(function(){
-      Demo.init();
-    }, 300);
-  } else {
-        setTimeout(function(){
-            Demo.init();
-        }, 300);
-  }
-  //Demo.dpinit(); //datepickerは使わなくなった
-  $("#geocode").change(function(){
-    if(Demo.circle) {
-      Demo.deleteCircle();
-    }
-    Demo.createCircle();
-    Demo.twsearch(Tws.query, Tws.lat, Tws.lng, Tws.within, Tws.units, Tws.rpp);
-  });
-  $(":input").keydown(function(e) {
-    if (e.keyCode == 13) {
-      // var allInputs = $(":input:visible");
-      // for(i=0; i < allInputs.length; i++){
-      //   if( allInputs[i].id == e.currentTarget.id){
-      //     if(!allInputs[i+1]) return false;
-      //     allInputs[i+1].focus();
-      //     return false;
-      //   }
-      // }
-    }
-  });
-  if(inputQuery.val() !== "") {
-    inputQuery.addClass("focused");
-  }
-  inputQuery.focus(function(){
-    var self = $(this);
-    // if(self.val() === placeHolder) {
-    //   self.val("").addClass("focused");
-    // }
-  }).blur(function(){
-    var self = $(this);
-    // if(self.val() === "") {
-    //   self.val(placeHolder).removeClass("focused");
-    // }
-  });
-  $("#submit_post").bind("click", function(){
-    // if(inputQuery.val() === placeHolder) inputQuery.val("");
-    $("form").submit();
-  });
-  $("#submit_post").keydown("keydown", function(e){
-    if (e.keyCode == 13) {
-      // if(inputQuery.val() === placeHolder) inputQuery.val("");
-      $("form").submit();
-    }
-  });
-});
+//   Tws.setSearchItem();
+//   Tws.setDistance();
+
+//   $.getJSON("js/pos.json", function(data){
+//       var rand = Math.floor(Math.random()*data.count);
+//       if(!Tws.lat) Tws.lat = data.pref[rand].lat;
+//       if(!Tws.lng) Tws.lng = data.pref[rand].lng;
+//   });
+
+//   if(Tws.query) {
+//     inputQuery.val(decodeURI(Tws.query));
+//   }
+//   if(Tws.rpp) {
+//     $("#rpp").val(Tws.rpp);
+//   } else {
+//     $("#rpp").val(20);
+//   }
+//   if(Demo.zoom) {
+//     $("#zoom").val(Demo.zoom);
+//   } else {
+//     $("#zoom").val(10);
+//   }
+//   if(isMSIE) {
+//     setTimeout(function(){
+//       Demo.init();
+//     }, 300);
+//   } else {
+//         setTimeout(function(){
+//             Demo.init();
+//         }, 300);
+//   }
+//   //Demo.dpinit(); //datepickerは使わなくなった
+//   $("#geocode").change(function(){
+//     if(Demo.circle) {
+//       Demo.deleteCircle();
+//     }
+//     Demo.createCircle();
+//     Demo.twsearch(Tws.query, Tws.lat, Tws.lng, Tws.within, Tws.units, Tws.rpp);
+//   });
+//   $(":input").keydown(function(e) {
+//     if (e.keyCode == 13) {
+//       // var allInputs = $(":input:visible");
+//       // for(i=0; i < allInputs.length; i++){
+//       //   if( allInputs[i].id == e.currentTarget.id){
+//       //     if(!allInputs[i+1]) return false;
+//       //     allInputs[i+1].focus();
+//       //     return false;
+//       //   }
+//       // }
+//     }
+//   });
+//   if(inputQuery.val() !== "") {
+//     inputQuery.addClass("focused");
+//   }
+//   inputQuery.focus(function(){
+//     var self = $(this);
+//     // if(self.val() === placeHolder) {
+//     //   self.val("").addClass("focused");
+//     // }
+//   }).blur(function(){
+//     var self = $(this);
+//     // if(self.val() === "") {
+//     //   self.val(placeHolder).removeClass("focused");
+//     // }
+//   });
+//   $("#submit_post").bind("click", function(){
+//     // if(inputQuery.val() === placeHolder) inputQuery.val("");
+//     $("form").submit();
+//   });
+//   $("#submit_post").keydown("keydown", function(e){
+//     if (e.keyCode == 13) {
+//       // if(inputQuery.val() === placeHolder) inputQuery.val("");
+//       $("form").submit();
+//     }
+//   });
+// });
 
 })(jQuery);
