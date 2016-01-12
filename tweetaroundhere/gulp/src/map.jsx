@@ -42,24 +42,20 @@ var MapBox = React.createClass({
 
     this.gm.geocoder = new google.maps.Geocoder();
     this.gm.infoWindow = new google.maps.InfoWindow();
-    this._updateMarkerPosition();
-    this._geocodePosition();
-    this._createCircle();
+
+    this._updateMarkerPosition(this.state.lat, this.state.lng);
+    this._setGeocodePosition();
     this._setDragEvent();
+    this._createCircle();
 
     google.maps.event.addListener(self.gm.map, 'click', function(e) {
-      var lat = e.latLng.lat();
-      var lng = e.latLng.lng();
+      self.state.lat = e.latLng.lat();
+      self.state.lng = e.latLng.lng();
 
-      self._deleteMarker();
-      self._setMarker(lat, lng);
+      self._setMarker();
+      self._updateMarkerPosition(self.state.lat, self.state.lng);
+      self._setGeocodePosition();
       self._setDragEvent();
-      self._updateMarkerPosition();
-
-      if (self.gm.circle) {
-        self._deleteCircle();
-      }
-
       self._createCircle();
       // TODO: 初期検索を実行
       console.log('TODO:');
@@ -67,7 +63,7 @@ var MapBox = React.createClass({
     });
 
     google.maps.event.addListener(self.gm.map, 'zoom_changed', function() {
-      self._updateZoomLevel(self.gm.map.getZoom());
+      self._updateZoomLevel();
     });
   },
   _moveCenter: function(lat,lng) {
@@ -77,12 +73,12 @@ var MapBox = React.createClass({
   _openInfoWindow: function() {
     // this.tweet is undefined
     this.gm.infoWindow.setContent(this.tweet);
-    this.gm.infoWindow.open(this.gm.map, this.markers);
+    this.gm.infoWindow.open(this.gm.map, this.gm.markers);
   },
   _closeInfoWindow: function() {
     this.gm.infoWindow.close();
   },
-  _geocodePosition: function() {
+  _setGeocodePosition: function() {
     var self = this;
     self.gm.geocoder.geocode({
       latLng: self.gm.marker.getPosition()
@@ -100,39 +96,37 @@ var MapBox = React.createClass({
       self._updateMarkerAddress("Address 取得中…");
     });
     google.maps.event.addListener(self.gm.marker, 'drag', function() {
-      self._updateMarkerPosition();
+      self._updateMarkerPosition("取得中…","取得中…");
       self._updateZoomLevel();
     });
     google.maps.event.addListener(self.gm.marker, 'dragend', function() {
-      self._geocodePosition(self.gm.marker.getPosition());
+      self._updateMarkerPosition(self.state.lat, self.state.lng);
+      self._setGeocodePosition();
       // TODO: マーカードラッグ後にtweet検索
       console.log('TODO:');
       // this.twsearch(Tws.query, Tws.lat, Tws.lng, Tws.within, Tws.units, Tws.rpp);
     });
   },
-  // ズームレベルを更新
-  _updateZoomLevel: function() {
-    this.state.zoom = this.gm.map.getZoom();
-  },
-  _createMarker: function(lat,lng) {
+  // not use
+  _createMarker: function() {
     var self = this;
     this.gm.icon = new google.maps.MarkerImage(
-      'img/markers_twitter.png',
-        new google.maps.Size(20,34),
-        new google.maps.Point(0,0),
-        new google.maps.Point(0,34)
+      'http://maps.google.co.jp/mapfiles/ms/icons/ltblue-dot.png',
+      new google.maps.Size(20,34),
+      new google.maps.Point(0,0),
+      new google.maps.Point(0,34)
     );
     this.gm.shadow = new google.maps.MarkerImage(
       'http://maps.google.co.jp/mapfiles/ms/icons/msmarker.shadow.png',
-        new google.maps.Size(59,32),
-        new google.maps.Point(0,0),
-        new google.maps.Point(5,32)
+      new google.maps.Size(59,32),
+      new google.maps.Point(0,0),
+      new google.maps.Point(5,32)
     );
     this.gm.markers = new google.maps.Marker({
       map: this.gm.map,
       icon: this.gm.icon,
       shadow: this.gm.shadow,
-      position: new google.maps.LatLng(lat,lng)
+      position: new google.maps.LatLng(this.state.lat,this.state.lng)
     });
     google.maps.event.addListener(self.gm.markers, 'click', function() {
       self._openInfoWindow();
@@ -141,30 +135,37 @@ var MapBox = React.createClass({
       self._closeInfoWindow();
     });
   },
-  _setMarker: function(lat,lng) {
+  _setMarker: function() {
+    this._deleteMarker();
     this.gm.marker = new google.maps.Marker({
       map: this.gm.map,
-      position: new google.maps.LatLng(lat, lng),
+      position: new google.maps.LatLng(this.state.lat, this.state.lng),
       draggable: true
     });
-    this._geocodePosition(this.gm.marker.getPosition());
   },
   _deleteMarker: function() {
     this.gm.marker.setMap(null);
   },
   // マーカーのポジション更新
-  _updateMarkerPosition: function() {
-    var latLng = this.gm.marker.getPosition();
-    this.state.lat = latLng.lat().toFixed(6);
-    this.state.lng = latLng.lng().toFixed(6);
-    document.getElementById("lat").textContent = this.state.lat;
-    document.getElementById("lng").textContent = this.state.lng;
+  _updateMarkerPosition: function(lat, lng) {
+    // var latLng = this.gm.marker.getPosition();
+    // this.state.lat = latLng.lat().toFixed(6);
+    // this.state.lng = latLng.lng().toFixed(6);
+    document.getElementById("lat").textContent = lat;
+    document.getElementById("lng").textContent = lng;
   },
   // マーカーの住所を更新
   _updateMarkerAddress: function(str) {
     document.getElementById("address").textContent = str;
   },
+  // ズームレベルを更新
+  _updateZoomLevel: function() {
+    this.state.zoom = this.gm.map.getZoom();
+  },
   _createCircle: function() {
+    if (this.gm.circle) {
+      this._deleteCircle();
+    }
     this.gm.circle = new google.maps.Circle({
       center:        new google.maps.LatLng(this.state.lat, this.state.lng),
       fillColor:     '#ff4500',
@@ -187,14 +188,6 @@ var MapBox = React.createClass({
       <div></div>
     );
   }
-});
-
-var MapMarker = React.createClass({
-  render: function() {}
-});
-
-var MapCircle = React.createClass({
-  render: function() {}
 });
 
 ReactDOM.render(
