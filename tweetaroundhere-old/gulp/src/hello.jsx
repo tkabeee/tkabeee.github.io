@@ -1,15 +1,17 @@
+"use strict";
+
 var React = require('react');
 var ReactDOM = require("react-dom");
 
 var Hello = React.createClass({
-  render: function(){
+  render: function() {
     return(
-      <div>Hello React!</div>
+      <div>Hello {this.props.name}</div>
     );
   }
 });
 
 ReactDOM.render(
-  <Hello />,
+  <Hello name="React!" />,
   document.getElementById("app")
 );
