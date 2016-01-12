@@ -111,15 +111,16 @@ var MapBox = React.createClass({
     });
   },
   _setDragEvent: function() {
-    google.maps.event.addListener(this.gm.marker, 'dragstart', function() {
-      this._updateMarkerAddress("Address 取得中…");
+    var self = this;
+    google.maps.event.addListener(self.gm.marker, 'dragstart', function() {
+      self._updateMarkerAddress("Address 取得中…");
     });
-    google.maps.event.addListener(this.gm.marker, 'drag', function() {
-      this._updateMarkerPosition(this.gm.marker.getPosition());
-      this._updateZoomLevel(this.gm.map.getZoom());
+    google.maps.event.addListener(self.gm.marker, 'drag', function() {
+      self._updateMarkerPosition(self.gm.marker.getPosition());
+      self._updateZoomLevel(self.gm.map.getZoom());
     });
-    google.maps.event.addListener(this.gm.marker, 'dragend', function() {
-      this._geocodePosition(this.gm.marker.getPosition());
+    google.maps.event.addListener(self.gm.marker, 'dragend', function() {
+      self._geocodePosition(self.gm.marker.getPosition());
       // TODO: マーカードラッグ後にtweet検索
       // this.twsearch(Tws.query, Tws.lat, Tws.lng, Tws.within, Tws.units, Tws.rpp);
     });
