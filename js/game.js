@@ -61,7 +61,7 @@ var game = new Phaser.Game(
     preload: preload,
     create:  create,
     update:  update,
-    //render:  render,
+    // render:  render,
   }
 );
 
@@ -97,10 +97,10 @@ var cursors;
 var fireKey
 
 function preload(){
-  game.load.image('unit', '../assets/gfx/unit.png');
-  game.load.image('block', '../assets/gfx/block.png');
-  game.load.image('bullet', '../assets/gfx/bullet.png');
-  game.load.spritesheet('kaboom', '../assets/gfx/explosion.png', 64, 64, 23);
+  game.load.image('unit', 'games/unit.png');
+  game.load.image('block', 'games/block.png');
+  game.load.image('bullet', 'games/bullet.png');
+  game.load.spritesheet('kaboom', 'games/explosion.png', 64, 64, 23);
 }
 
 function create(){
@@ -255,7 +255,7 @@ function playerControl(){
     // 左旋回
     chip.rotate.left();
   }
-  
+
   if (cursors.right.isDown)
   {
     // 左旋回

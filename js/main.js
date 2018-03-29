@@ -44,7 +44,7 @@ create: function(){
     // 画像を描画
     /*
     self.img.onload = function(){
-      ctx.translate(100, 50); 
+      ctx.translate(100, 50);
       ctx.rotate(-90 * Math.PI / 180);
       ctx.drawImage(this, 0, 32, 32, 32, 0, 0, 16, 32);
     }
