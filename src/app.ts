@@ -1,5 +1,5 @@
-/// <reference path="game.ts" />
+import Game from "./game"
 
 window.onload = () => {
-  let game = new SpaceShip.Game()
+  let game = new Game()
 }
