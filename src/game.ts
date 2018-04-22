@@ -6,7 +6,7 @@ import Build from "./build"
 
 export default class Game extends Phaser.Game {
   constructor() {
-    super(800, 600, Phaser.AUTO, 'field', null)
+    super(600, 600, Phaser.AUTO, 'field', null)
 
     this.state.add('Boot', Boot, false)
     this.state.add('Preloader', Preloader, false)

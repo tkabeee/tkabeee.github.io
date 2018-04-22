@@ -11,7 +11,7 @@ export default class Build extends Phaser.State {
   preload() {
   }
   create() {
-    this.world.setBounds(0, 0, 600, 500)
+    this.world.setBounds(0, 0, 600, 600)
 
     // Create Player
     const spriteUnit = this.game.add.sprite(0, 0, 'unit')

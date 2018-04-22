@@ -4,6 +4,8 @@ import ConstantPlayer from "./constants/player"
 
 export default class Player {
   private sprite: Phaser.Sprite
+  private state: any = {}
+
   constructor(sprite: Phaser.Sprite) {
     this.sprite = sprite
     this.sprite.anchor.setTo(0.5, 0.5)
@@ -24,91 +26,109 @@ export default class Player {
     this.sprite.bringToTop()
 
     this.sprite.angle = ConstantPlayer.angle
-    this.sprite.body.direction = ConstantPlayer.direction
-    this.sprite.body.point = new Phaser.Point()
-    this.sprite.body.maxVelocity = ConstantPlayer.maxVelocity
-    this.sprite.body.currentSpeed = ConstantPlayer.currentSpeed
-    this.sprite.body.deceleration = ConstantPlayer.deceleration
+    this.state = {
+      angle: <number> ConstantPlayer.angle,
+      direction: <boolean> ConstantPlayer.direction,
+      point: <Phaser.Point> new Phaser.Point(),
+      currentSpeed: <number> ConstantPlayer.currentSpeed
+    }
   }
 
   goReady() {
-    if (this.sprite.body.currentSpeed > 0) {
+    if (this.state.currentSpeed > 0)
+    {
       // 停止じゃない場合
-      if ((this.sprite.body.maxVelocity % 2) < this.sprite.body.currentSpeed) {
-        this.sprite.body.currentSpeed -= (this.sprite.body.deceleration * 3)
+      if ((this.state.maxVelocity % 2) < this.state.currentSpeed) {
+        this.state.currentSpeed -= (this.state.deceleration * 3)
       } else {
-        this.sprite.body.currentSpeed -= this.sprite.body.deceleration
+        this.state.currentSpeed -= ConstantPlayer.deceleration
       }
     } else {
       // 停止する
-      this.sprite.body.currentSpeed = 0
+      this.state.currentSpeed = 0
 
       // 進行方向を変更
-      this.sprite.body.direction = !this.sprite.body.direction
+      this.state.direction = !this.state.direction
     }
   }
 
   goFront() {
-    if (!this.sprite.body.direction) {
+    if (!this.state.direction)
+    {
       // 角度調整
-      this.sprite.angle -= 180
+      this.state.angle = this.sprite.angle - 180
       // 前進前の速度調整
-      // this.goReady()
-    } else {
-      if (this.sprite.body.currentSpeed < this.sprite.body.maxVelocity) {
-        this.sprite.body.currentSpeed += this.sprite.body.deceleration
-      } else {
-        this.sprite.body.currentSpeed = this.sprite.body.maxVelocity
+      this.goReady()
+    }
+    else
+    {
+      if (this.state.currentSpeed < ConstantPlayer.maxVelocity)
+      {
+        this.state.currentSpeed += ConstantPlayer.deceleration
+      }
+      else
+      {
+        this.state.currentSpeed = ConstantPlayer.maxVelocity
       }
     }
-    this.sprite.body.point = this.sprite.body.velocity.rotate(0, 0, this.sprite.angle, true, this.sprite.body.currentSpeed)
+    this.state.point = this.sprite.body.velocity.rotate(0, 0, this.state.angle, true, this.state.currentSpeed)
   }
 
   goBack() {
     // 減速前進中
-    if (this.sprite.body.direction) {
+    if (this.state.direction)
+    {
       // 角度調整
-      this.sprite.body.angle = this.sprite.angle
+      this.state.angle = this.sprite.angle
       // 速度調整
-      // this.goReady()
-    } else {
-      this.sprite.body.angle = this.sprite.angle - 180
+      this.goReady()
+    }
+    else
+    {
+      this.state.angle = this.sprite.angle - 180
 
-      if (this.sprite.body.currentSpeed < this.sprite.body.maxVelocity) {
-        this.sprite.body.currentSpeed += this.sprite.body.deceleration
-      } else {
-        this.sprite.body.currentSpeed = this.sprite.body.maxVelocity
+      if (this.state.currentSpeed < ConstantPlayer.maxVelocity)
+      {
+        this.state.currentSpeed += ConstantPlayer.deceleration
+      }
+      else
+      {
+        this.state.currentSpeed = ConstantPlayer.maxVelocity
       }
     }
-    this.sprite.body.point = this.sprite.body.velocity.rotate(0, 0, this.sprite.body.angle, true, this.sprite.body.currentSpeed)
+    this.state.point = this.sprite.body.velocity.rotate(0, 0, this.state.angle, true, this.state.currentSpeed)
   }
 
   rotateRight() {
-    this.sprite.angle += ConstantPlayer.rotationAngle
+    this.state.angle = this.sprite.angle += ConstantPlayer.rotationAngle
 
-    if (this.sprite.body.currentSpeed > 0)
+    if (this.state.currentSpeed <= 0)
     {
-      if (!this.sprite.body.direction)
-      {
-        this.sprite.angle -= 180
-      }
-
-      this.sprite.body.velocity.rotate(0, 0, this.sprite.angle, true, this.sprite.body.currentSpeed)
+      return
     }
+
+    if (!this.state.direction)
+    {
+      this.state.angle = this.sprite.angle - 180;
+    }
+
+    this.sprite.body.velocity.rotate(0, 0, this.state.angle, true, this.state.currentSpeed)
   }
 
   rotateLeft() {
-    this.sprite.angle -= ConstantPlayer.rotationAngle
+    this.state.angle = this.sprite.angle -= ConstantPlayer.rotationAngle
 
-    if (this.sprite.body.currentSpeed > 0)
+    if (this.state.currentSpeed <= 0)
     {
-      if (!this.sprite.body.direction)
-      {
-        this.sprite.angle -= 180
-      }
-
-      this.sprite.body.velocity.rotate(0, 0, this.sprite.angle, true, this.sprite.body.currentSpeed)
+      return
     }
+
+    if (!this.state.direction)
+    {
+      this.state.angle = this.sprite.angle - 180;
+    }
+
+    this.sprite.body.velocity.rotate(0, 0, this.state.angle, true, this.state.currentSpeed)
   }
 
   fire() {
