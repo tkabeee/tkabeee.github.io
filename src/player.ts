@@ -38,12 +38,17 @@ export default class Player {
     if (this.state.currentSpeed > 0)
     {
       // 停止じゃない場合
-      if ((this.state.maxVelocity % 2) < this.state.currentSpeed) {
+      if ((this.state.maxVelocity % 2) < this.state.currentSpeed)
+      {
         this.state.currentSpeed -= (this.state.deceleration * 3)
-      } else {
+      }
+      else
+      {
         this.state.currentSpeed -= ConstantPlayer.deceleration
       }
-    } else {
+    }
+    else
+    {
       // 停止する
       this.state.currentSpeed = 0
 
@@ -62,6 +67,8 @@ export default class Player {
     }
     else
     {
+      this.state.angle = this.sprite.angle
+
       if (this.state.currentSpeed < ConstantPlayer.maxVelocity)
       {
         this.state.currentSpeed += ConstantPlayer.deceleration
@@ -72,6 +79,11 @@ export default class Player {
       }
     }
     this.state.point = this.sprite.body.velocity.rotate(0, 0, this.state.angle, true, this.state.currentSpeed)
+
+    console.log(`angle: ${this.state.angle}`)
+    console.log(`sprite.angle: ${this.sprite.angle}`)
+    console.log(`speed: ${this.state.currentSpeed}`)
+    console.log(`point: ${this.state.point}`)
   }
 
   goBack() {
