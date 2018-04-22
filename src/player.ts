@@ -49,30 +49,19 @@ export default class Player {
   }
 
   goFront() {
-    console.log(!this.sprite.body.direction)
-    if (!this.sprite.body.direction)
-    {
+    if (!this.sprite.body.direction) {
       // 角度調整
-      console.log(!this.sprite.angle)
-      console.log(!this.sprite.body.angle)
-      this.sprite.body.angle = this.sprite.angle - 180
+      this.sprite.angle -= 180
       // 前進前の速度調整
       // this.goReady()
-    }
-    else
-    {
-      this.sprite.body.angle = this.sprite.angle
-
-      if (this.sprite.body.currentSpeed < this.sprite.body.maxVelocity)
-      {
+    } else {
+      if (this.sprite.body.currentSpeed < this.sprite.body.maxVelocity) {
         this.sprite.body.currentSpeed += this.sprite.body.deceleration
-      }
-      else
-      {
+      } else {
         this.sprite.body.currentSpeed = this.sprite.body.maxVelocity
       }
     }
-    this.sprite.body.point = this.sprite.body.velocity.rotate(0, 0, this.sprite.body.angle, true, this.sprite.body.currentSpeed)
+    this.sprite.body.point = this.sprite.body.velocity.rotate(0, 0, this.sprite.angle, true, this.sprite.body.currentSpeed)
   }
 
   goBack() {
@@ -95,30 +84,30 @@ export default class Player {
   }
 
   rotateRight() {
-    this.sprite.body.angle += 4
+    this.sprite.angle += ConstantPlayer.rotationAngle
 
     if (this.sprite.body.currentSpeed > 0)
     {
       if (!this.sprite.body.direction)
       {
-        this.sprite.body.angle = this.sprite.body.angle - 180
+        this.sprite.angle -= 180
       }
 
-      this.sprite.body.velocity.rotate(0, 0, this.sprite.body.angle, true, this.sprite.body.currentSpeed)
+      this.sprite.body.velocity.rotate(0, 0, this.sprite.angle, true, this.sprite.body.currentSpeed)
     }
   }
 
   rotateLeft() {
-    this.sprite.body.angle -= 4;
+    this.sprite.angle -= ConstantPlayer.rotationAngle
 
     if (this.sprite.body.currentSpeed > 0)
     {
       if (!this.sprite.body.direction)
       {
-        this.sprite.body.angle = this.sprite.body.angle - 180;
+        this.sprite.angle -= 180
       }
 
-      this.sprite.body.body.velocity.rotate(0, 0, this.sprite.body.angle, true, this.sprite.body.currentSpeed);
+      this.sprite.body.velocity.rotate(0, 0, this.sprite.angle, true, this.sprite.body.currentSpeed)
     }
   }
 

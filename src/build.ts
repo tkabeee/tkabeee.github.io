@@ -40,12 +40,12 @@ export default class Build extends Phaser.State {
   update() {
     // 左旋回
     if (this.cursors.left.isDown) {
-      // this.unit.rotateLeft()
+      this.unit.rotateLeft()
     }
 
     // 左旋回
     if (this.cursors.right.isDown) {
-      // this.unit.rotateRight()
+      this.unit.rotateRight()
     }
 
     // 前進

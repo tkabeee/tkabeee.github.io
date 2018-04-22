@@ -11,4 +11,6 @@ export default class ConstantPlayer {
   public static currentSpeed = 0
   // 減速値
   public static deceleration = 4
+  // 回転角度
+  public static rotationAngle = 4
 }
