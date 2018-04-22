@@ -1,5 +1,6 @@
 /// <reference path="libs/phaser/phaser.d.ts" />
 
+import Constant from "./constant"
 import Block from "./block"
 
 export default class Build extends Phaser.State {
@@ -8,8 +9,7 @@ export default class Build extends Phaser.State {
   create() {
     this.world.setBounds(0, 0, 600, 500)
 
-    // TODO: configファイルにまとめる
-    const totalEnemies = 8
+    const totalEnemies = Constant.NUM_ENEMIES
 
     const enemies = []
     for (var i = 0; i < totalEnemies; i++) {
