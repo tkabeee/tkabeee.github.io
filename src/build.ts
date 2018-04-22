@@ -5,6 +5,9 @@ import Player from "./player"
 import Block from "./block"
 
 export default class Build extends Phaser.State {
+  private unit: Player
+  private cursors: Phaser.CursorKeys
+
   preload() {
   }
   create() {
@@ -12,8 +15,8 @@ export default class Build extends Phaser.State {
 
     // Create Player
     const spriteUnit = this.game.add.sprite(0, 0, 'unit')
-    this.game.physics.enable(spriteUnit, Phaser.Physics.ARCADE);
-    const unit = new Player(spriteUnit)
+    this.game.physics.enable(spriteUnit, Phaser.Physics.ARCADE)
+    this.unit = new Player(spriteUnit)
 
     // Create Enemies
     const enemies = []
@@ -24,6 +27,35 @@ export default class Build extends Phaser.State {
       let block = new Block(spriteBlock)
       enemies.push(block)
       enemyCount--
+    }
+
+    // TODO: 衝突の判定
+
+    // The Keyboard Input manager.
+    // Creates and returns an object containing 4 hotkeys for Up, Down, Left and Right.
+    this.cursors = this.game.input.keyboard.createCursorKeys()
+    const fireKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
+  }
+
+  update() {
+    // 左旋回
+    if (this.cursors.left.isDown) {
+      // this.unit.rotateLeft()
+    }
+
+    // 左旋回
+    if (this.cursors.right.isDown) {
+      // this.unit.rotateRight()
+    }
+
+    // 前進
+    if (this.cursors.up.isDown) {
+      this.unit.goFront()
+    }
+
+    // 後進
+    if (this.cursors.down.isDown) {
+      this.unit.goBack()
     }
   }
 }
