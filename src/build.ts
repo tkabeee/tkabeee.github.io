@@ -21,8 +21,7 @@ export default class Build extends Phaser.State {
     const enemies = []
     let enemyCount = ConstantEnemy.numTotal
     while (enemyCount > 0) {
-      const spriteBlock = this.game.add.sprite(this.world.randomX, this.world.randomY, 'enemy', 'block')
-      this.game.physics.enable(spriteBlock, Phaser.Physics.ARCADE)
+      const spriteBlock = this.game.add.sprite(this.world.randomX, this.world.randomY, 'block')
       let block = new Block(spriteBlock)
       enemies.push(block)
       enemyCount--

@@ -1,11 +1,13 @@
 /// <reference path="libs/phaser/phaser.d.ts" />
 
+import ConstantEnemy from "./constants/enemy";
+
 export default class Block {
   private sprite: Phaser.Sprite
-  private health: number = 3
-  private alive: boolean = true
+  private state: any = {}
   constructor(sprite: Phaser.Sprite) {
     this.sprite = sprite
+    this.sprite.game.physics.enable(this.sprite, Phaser.Physics.ARCADE)
     this.sprite.anchor.set(0.5)
     // 固定する
     this.sprite.body.immovable = true
@@ -13,15 +15,25 @@ export default class Block {
     this.sprite.body.collideWorldBounds = true
     // bounce設定
     this.sprite.body.bounce.setTo(0, 0)
-  }
-  damage() {
-    this.health -= 1
-    if (this.health <= 0) {
-      console.log('kill!!')
-      this.alive = false
-      this.sprite.kill()
-      return true
+
+    this.state = {
+      health: <number> ConstantEnemy.health,
+      alive: <boolean> true
     }
-    return false
+  }
+
+  damage() {
+    this.state.health -= 1
+
+    if (this.state.health > 0)
+    {
+      return false
+    }
+
+    this.state.alive = false
+    this.sprite.kill()
+    console.log('kill!!')
+
+    return true
   }
 }
