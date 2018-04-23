@@ -15,7 +15,6 @@ export default class Build extends Phaser.State {
 
     // Create Player
     const spriteUnit = this.game.add.sprite(0, 0, 'unit')
-    this.game.physics.enable(spriteUnit, Phaser.Physics.ARCADE)
     this.unit = new Player(spriteUnit)
 
     // Create Enemies

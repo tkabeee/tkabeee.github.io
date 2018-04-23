@@ -8,6 +8,7 @@ export default class Player {
 
   constructor(sprite: Phaser.Sprite) {
     this.sprite = sprite
+    this.sprite.game.physics.enable(this.sprite, Phaser.Physics.ARCADE)
     this.sprite.anchor.setTo(0.5, 0.5)
     // Move
     this.sprite.x = 250
@@ -27,14 +28,14 @@ export default class Player {
 
     this.sprite.angle = ConstantPlayer.angle
     this.state = {
-      angle: <number> ConstantPlayer.angle,
-      direction: <boolean> ConstantPlayer.direction,
+      angle: <number> ConstantPlayer.angle, // TODO: いらないっぽい
+      faceForward: <boolean> ConstantPlayer.faceForward,
       point: <Phaser.Point> new Phaser.Point(),
       currentSpeed: <number> ConstantPlayer.currentSpeed
     }
   }
 
-  goReady() {
+  private goReady() : void {
     if (this.state.currentSpeed > 0)
     {
       // 停止じゃない場合
@@ -53,51 +54,47 @@ export default class Player {
       this.state.currentSpeed = 0
 
       // 進行方向を変更
-      this.state.direction = !this.state.direction
+      this.state.faceForward = !this.state.faceForward
     }
   }
 
-  goFront() {
-    if (!this.state.direction)
+  public goFront() : void {
+    if (!this.state.faceForward)
     {
       // 角度調整
-      this.state.angle = this.sprite.angle - 180
+      // this.state.angle = this.sprite.angle - 180
       // 前進前の速度調整
-      this.goReady()
+      // this.goReady()
     }
     else
     {
-      this.state.angle = this.sprite.angle
+      // this.state.angle = this.sprite.angle
 
       if (this.state.currentSpeed < ConstantPlayer.maxVelocity)
       {
-        this.state.currentSpeed += ConstantPlayer.deceleration
+        this.state.currentSpeed += ConstantPlayer.acceleration
       }
       else
       {
         this.state.currentSpeed = ConstantPlayer.maxVelocity
       }
     }
-    this.state.point = this.sprite.body.velocity.rotate(0, 0, this.state.angle, true, this.state.currentSpeed)
 
-    console.log(`angle: ${this.state.angle}`)
-    console.log(`sprite.angle: ${this.sprite.angle}`)
-    console.log(`speed: ${this.state.currentSpeed}`)
-    console.log(`point: ${this.state.point}`)
+    this.sprite.game.physics.arcade.velocityFromRotation(this.sprite.rotation, this.state.currentSpeed, this.sprite.body.velocity)
   }
 
-  goBack() {
+  public goBack() : void {
     // 減速前進中
-    if (this.state.direction)
+    if (this.state.faceForward)
     {
       // 角度調整
-      this.state.angle = this.sprite.angle
+      // this.state.angle = this.sprite.angle
       // 速度調整
       this.goReady()
     }
     else
     {
-      this.state.angle = this.sprite.angle - 180
+      // this.state.angle = this.sprite.angle - 180
 
       if (this.state.currentSpeed < ConstantPlayer.maxVelocity)
       {
@@ -108,41 +105,39 @@ export default class Player {
         this.state.currentSpeed = ConstantPlayer.maxVelocity
       }
     }
-    this.state.point = this.sprite.body.velocity.rotate(0, 0, this.state.angle, true, this.state.currentSpeed)
+
+    this.sprite.game.physics.arcade.velocityFromRotation(this.sprite.rotation, this.state.currentSpeed, this.sprite.body.velocity)
   }
 
-  rotateRight() {
-    this.state.angle = this.sprite.angle += ConstantPlayer.rotationAngle
+  private rotate(direction: string) : void {
+    if (!this.state.faceForward)
+    {
+      return
+    }
 
     if (this.state.currentSpeed <= 0)
     {
       return
     }
 
-    if (!this.state.direction)
-    {
-      this.state.angle = this.sprite.angle - 180;
+    switch (true) {
+      case direction == 'left':
+        this.sprite.angle -= ConstantPlayer.rotationAngle
+        break
+      case direction == 'right':
+        this.sprite.angle += ConstantPlayer.rotationAngle
+        break
     }
-
-    this.sprite.body.velocity.rotate(0, 0, this.state.angle, true, this.state.currentSpeed)
   }
 
-  rotateLeft() {
-    this.state.angle = this.sprite.angle -= ConstantPlayer.rotationAngle
-
-    if (this.state.currentSpeed <= 0)
-    {
-      return
-    }
-
-    if (!this.state.direction)
-    {
-      this.state.angle = this.sprite.angle - 180;
-    }
-
-    this.sprite.body.velocity.rotate(0, 0, this.state.angle, true, this.state.currentSpeed)
+  public rotateRight() : void {
+    this.rotate('right')
   }
 
-  fire() {
+  public rotateLeft() : void {
+    this.rotate('left')
+  }
+
+  public fire() : void {
   }
 }
