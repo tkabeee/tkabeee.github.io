@@ -10,8 +10,9 @@ export default class Build extends Phaser.State {
 
   preload() {
   }
+
   create() {
-    this.world.setBounds(0, 0, window.innerWidth, window.innerHeight)
+    this.world.setBounds(0, 0, this.game.width, this.game.height)
 
     // Create Player
     const spriteUnit = this.game.add.sprite(0, 0, 'unit')
@@ -55,10 +56,5 @@ export default class Build extends Phaser.State {
     if (this.cursors.down.isDown) {
       this.unit.goBack()
     }
-  }
-
-  render() {
-    // this.game.debug.bodyInfo(this.unit.sprite, 32, 32);
-    // this.game.debug.spriteInfo(this.unit.sprite, 32, 140);
   }
 }

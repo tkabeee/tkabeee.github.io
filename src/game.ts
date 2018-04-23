@@ -6,8 +6,8 @@ import Build from "./build"
 
 export default class Game extends Phaser.Game {
   private size: any = {}
-  constructor() {
-    super(window.innerWidth, window.innerHeight, Phaser.AUTO, 'field', null)
+  constructor(width: number, height: number) {
+    super(width, height, Phaser.AUTO, 'field', null)
 
     this.state.add('Boot', Boot, false)
     this.state.add('Preloader', Preloader, false)

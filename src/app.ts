@@ -1,5 +1,5 @@
 import Game from "./game"
 
 window.onload = () => {
-  let game = new Game()
+  const game = new Game(window.innerWidth, window.innerHeight)
 }
