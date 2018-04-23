@@ -6,6 +6,7 @@ export default class ConstantPlayer {
   // Point object
   public static point = new Phaser.Point()
   // 基本速度
+  public static minVelocity = -100
   public static maxVelocity = 200
   // 現在の速度
   public static currentSpeed = 0

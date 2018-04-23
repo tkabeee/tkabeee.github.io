@@ -21,7 +21,7 @@ export default class Build extends Phaser.State {
     const enemies = []
     let enemyCount = ConstantEnemy.numTotal
     while (enemyCount > 0) {
-      const spriteBlock = this.game.add.sprite(this.world.randomX, this.world.randomY, 'block')
+      const spriteBlock = this.game.add.sprite(this.world.randomX, this.world.randomY, 'undefined')
       let block = new Block(spriteBlock)
       enemies.push(block)
       enemyCount--
@@ -55,5 +55,10 @@ export default class Build extends Phaser.State {
     if (this.cursors.down.isDown) {
       this.unit.goBack()
     }
+  }
+
+  render() {
+    // this.game.debug.bodyInfo(this.unit.sprite, 32, 32);
+    // this.game.debug.spriteInfo(this.unit.sprite, 32, 140);
   }
 }

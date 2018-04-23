@@ -3,7 +3,7 @@
 import ConstantPlayer from "./constants/player"
 
 export default class Player {
-  private sprite: Phaser.Sprite
+  public sprite: Phaser.Sprite
   private state: any = {}
 
   constructor(sprite: Phaser.Sprite) {
@@ -28,7 +28,6 @@ export default class Player {
 
     this.sprite.angle = ConstantPlayer.angle
     this.state = {
-      angle: <number> ConstantPlayer.angle, // TODO: いらないっぽい
       faceForward: <boolean> ConstantPlayer.faceForward,
       point: <Phaser.Point> new Phaser.Point(),
       currentSpeed: <number> ConstantPlayer.currentSpeed
@@ -36,40 +35,37 @@ export default class Player {
   }
 
   private goReady() : void {
-    if (this.state.currentSpeed > 0)
+    if (this.state.currentSpeed == 0)
     {
-      // 停止じゃない場合
-      if ((this.state.maxVelocity % 2) < this.state.currentSpeed)
-      {
-        this.state.currentSpeed -= (this.state.deceleration * 3)
-      }
-      else
-      {
-        this.state.currentSpeed -= ConstantPlayer.deceleration
-      }
-    }
-    else
-    {
-      // 停止する
-      this.state.currentSpeed = 0
-
       // 進行方向を変更
       this.state.faceForward = !this.state.faceForward
     }
   }
 
+  private decelerate() : void {
+    if (this.state.currentSpeed <= 0)
+    {
+      this.state.currentSpeed = 0
+      return
+    }
+
+    if ((ConstantPlayer.maxVelocity % 2) < this.state.currentSpeed)
+    {
+      this.state.currentSpeed -= (ConstantPlayer.deceleration * 2)
+      return
+    }
+
+    this.state.currentSpeed -= ConstantPlayer.deceleration
+  }
+
   public goFront() : void {
     if (!this.state.faceForward)
     {
-      // 角度調整
-      // this.state.angle = this.sprite.angle - 180
-      // 前進前の速度調整
-      // this.goReady()
+      this.decelerate()
+      this.goReady()
     }
     else
     {
-      // this.state.angle = this.sprite.angle
-
       if (this.state.currentSpeed < ConstantPlayer.maxVelocity)
       {
         this.state.currentSpeed += ConstantPlayer.acceleration
@@ -80,41 +76,32 @@ export default class Player {
       }
     }
 
-    this.sprite.game.physics.arcade.velocityFromRotation(this.sprite.rotation, this.state.currentSpeed, this.sprite.body.velocity)
+    this.sprite.game.physics.arcade.velocityFromAngle(this.sprite.angle, this.state.currentSpeed, this.sprite.body.velocity)
   }
 
   public goBack() : void {
     // 減速前進中
     if (this.state.faceForward)
     {
-      // 角度調整
-      // this.state.angle = this.sprite.angle
-      // 速度調整
+      this.decelerate()
       this.goReady()
     }
     else
     {
-      // this.state.angle = this.sprite.angle - 180
-
-      if (this.state.currentSpeed < ConstantPlayer.maxVelocity)
+      if (ConstantPlayer.minVelocity < this.state.currentSpeed)
       {
-        this.state.currentSpeed += ConstantPlayer.deceleration
+        this.state.currentSpeed -= ConstantPlayer.deceleration
       }
       else
       {
-        this.state.currentSpeed = ConstantPlayer.maxVelocity
+        this.state.currentSpeed = ConstantPlayer.minVelocity
       }
     }
 
-    this.sprite.game.physics.arcade.velocityFromRotation(this.sprite.rotation, this.state.currentSpeed, this.sprite.body.velocity)
+    this.sprite.game.physics.arcade.velocityFromAngle(this.sprite.angle, this.state.currentSpeed, this.sprite.body.velocity)
   }
 
   private rotate(direction: string) : void {
-    if (!this.state.faceForward)
-    {
-      return
-    }
-
     if (this.state.currentSpeed <= 0)
     {
       return
@@ -128,6 +115,8 @@ export default class Player {
         this.sprite.angle += ConstantPlayer.rotationAngle
         break
     }
+
+    this.sprite.game.physics.arcade.velocityFromAngle(this.sprite.angle, this.state.currentSpeed, this.sprite.body.velocity)
   }
 
   public rotateRight() : void {
