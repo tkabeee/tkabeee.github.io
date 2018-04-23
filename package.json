@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "webpack --watch --mode production --module-bind 'ts=ts-loader' --resolve-extensions .ts,.js --entry ./src/app.ts --output ./js/game.js",
+    "build": "webpack --mode production --module-bind 'ts=ts-loader' --resolve-extensions .ts,.js --entry ./src/app.ts --output ./js/game.js",
+    "watch": "webpack --watch --mode production --module-bind 'ts=ts-loader' --resolve-extensions .ts,.js --entry ./src/app.ts --output ./js/game.js",
     "test": "jest"
   },
   "jest": {
