@@ -19,8 +19,8 @@ export default class ConstantPlayer {
 
   // 砲撃の間隔
   public static fireRate = 300
-  //
+  // 砲撃の加減
   public static fireAsDegrees = true
-  // 弾の発射間隔
+  // 弾丸の速度
   public static fireVelocity = 600
 }
