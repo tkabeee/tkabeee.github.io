@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "webpack --mode production --module-bind 'ts=ts-loader' --resolve-extensions .ts,.js --entry ./src/app.ts --output ./js/game.js",
-    "watch": "webpack --watch --mode development --devtool inline-source-map --module-bind 'ts=ts-loader' --resolve-extensions .ts,.js --entry ./src/app.ts --output ./js/game.js",
+    "build": "webpack --mode production",
+    "watch": "webpack --watch",
+    "start": "webpack-dev-server",
     "test": "jest"
   },
   "jest": {
@@ -27,6 +28,7 @@
     "ts-loader": "^4.0.0",
     "typescript": "^2.7.2",
     "webpack": "^4.0.0",
-    "webpack-cli": "^2.0.9"
+    "webpack-cli": "^2.0.9",
+    "webpack-dev-server": "^3.1.3"
   }
 }
