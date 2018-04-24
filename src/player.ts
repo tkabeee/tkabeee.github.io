@@ -30,7 +30,8 @@ export default class Player {
     this.state = {
       faceForward: <boolean> ConstantPlayer.faceForward,
       point: <Phaser.Point> new Phaser.Point(),
-      currentSpeed: <number> ConstantPlayer.currentSpeed
+      currentSpeed: <number> ConstantPlayer.currentSpeed,
+      bulletTime: <number> 0
     }
   }
 
@@ -127,6 +128,13 @@ export default class Player {
     this.rotate('left')
   }
 
-  public fire() : void {
+  public fire(bullets: Phaser.Group) : void {
+    const now = this.sprite.game.time.now
+    if (now < this.state.bulletTime) return
+    this.state.bulletTime = now + ConstantPlayer.fireRate
+    const bullet = bullets.getFirstExists(false)
+    if (!bullet) return
+    bullet.reset(this.sprite.x, this.sprite.y)
+    bullet.body.velocity.rotate(0, 0, this.sprite.angle, ConstantPlayer.fireAsDegrees, ConstantPlayer.fireVelocity)
   }
 }

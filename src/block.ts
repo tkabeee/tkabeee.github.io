@@ -3,7 +3,7 @@
 import ConstantEnemy from "./constants/enemy";
 
 export default class Block {
-  private sprite: Phaser.Sprite
+  public sprite: Phaser.Sprite
   private state: any = {}
   constructor(sprite: Phaser.Sprite) {
     this.sprite = sprite
