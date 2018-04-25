@@ -15,7 +15,7 @@ export default class ConstantPlayer {
   // 減速値
   public static deceleration = 4
   // 回転角度
-  public static rotationAngle = 4
+  public static rotationAngle = 2
 
   // 砲撃の間隔
   public static fireRate = 300
