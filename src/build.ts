@@ -8,6 +8,7 @@ export default class Build extends Phaser.State {
   private unit: Player
   private enemies: any = []
   private bullets: Phaser.Group
+  private explosions: Phaser.Group
   private inputKeys: any = {}
 
   preload() {
@@ -38,6 +39,17 @@ export default class Build extends Phaser.State {
     this.bullets.setAll('anchor.y', 0.5)
     this.bullets.setAll('outOfBoundsKill', true)
     this.bullets.setAll('checkWorldBounds', true)
+
+    //  Explosion pool
+    this.explosions = this.game.add.group()
+    this.explosions.enableBody = true
+    this.explosions.physicsBodyType = Phaser.Physics.ARCADE
+    this.explosions.createMultiple(30, 'kaboom')
+    this.explosions.setAll('anchor.x', 0.5)
+    this.explosions.setAll('anchor.y', 0.5)
+    this.explosions.forEach((explosion: Phaser.Sprite) => {
+      explosion.animations.add('kaboom')
+    })
 
     // TODO: 衝突の判定
 
@@ -74,6 +86,14 @@ export default class Build extends Phaser.State {
     // Shoot
     if (this.inputKeys.spacebar.isDown) {
       this.unit.fire(this.bullets)
+    }
+
+    for (var i = 0; i < this.enemies.length; i++)
+    {
+      if (this.enemies[i].alive)
+      {
+        this.game.physics.arcade.overlap(this.bullets, this.enemies[i].sprite, this.unit.hitBullet, null, this)
+      }
     }
   }
 }

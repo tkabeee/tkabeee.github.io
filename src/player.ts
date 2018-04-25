@@ -1,6 +1,7 @@
 /// <reference path="libs/phaser/phaser.d.ts" />
 
 import ConstantPlayer from "./constants/player"
+import Block from "./block"
 
 export default class Player {
   public sprite: Phaser.Sprite
@@ -137,4 +138,14 @@ export default class Player {
     bullet.reset(this.sprite.x, this.sprite.y)
     bullet.body.velocity.rotate(0, 0, this.sprite.angle, ConstantPlayer.fireAsDegrees, ConstantPlayer.fireVelocity)
   }
+
+  public hitBullet(enemy: Block, bullet: Phaser.Sprite) : void {
+    bullet.kill()
+    enemy.damage()
+    // TODO: 爆発
+    // const explosion = explosions.getFirstExists(false)
+    // explosion.reset(enemy.sprite.x, enemy.sprite.y)
+    // explosion.play('kaboom', 30, false, true)
+  }
+
 }
