@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "outDir": "./js/",
+    "sourceMap": true,
+    // Raise error on expressions and declarations with an implied 'any' type.
+    "noImplicitAny": true,
+    "target": "es2015",
+    "module": "es2015",
+    "moduleResolution": "node",
+    "lib": [
+      "dom",
+      "es2017"
+    ]
+  }
+}
