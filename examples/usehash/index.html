@@ -8,8 +8,8 @@
       fetch('./map.json')
         .then(response => response.json())
         .then(rMap => {
-          const currentPath = removePrefix(window.location.hash, '#!/');
-          const redirectPath = rMap[currentPath];
+          const currentHash = removePrefix(window.location.hash, '#!/');
+          const redirectPath = rMap[currentHash];
           if (redirectPath) {
             window.location.href = redirectPath;
           }
