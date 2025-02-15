@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Redirect</title>
+  <script>
+    fetch('./map.json')
+      .then(response => response.json())
+      .then(rMap => {
+        const currentPath = window.location.pathname;
+        const redirectPath = rMap[currentPath];
+        if (redirectPath) {
+          window.location.href = redirectPath;
+        }
+      })
+      .catch(error => {
+        console.error('Error loading redirect map:', error);
+      });
+  </script>
+</head>
+<body>
+  <h1>Hello Example!</h1>
+</body>
+</html>
