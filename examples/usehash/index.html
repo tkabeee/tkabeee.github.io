@@ -4,20 +4,20 @@
   <meta charset="UTF-8">
   <title>Redirect</title>
   <script>
-    window.onload = function() {
+    document.addEventListener("DOMContentLoaded", function() {
       fetch('./map.json')
         .then(response => response.json())
         .then(rMap => {
           const currentHash = removePrefix(window.location.hash, '#!/');
           const redirectPath = rMap[currentHash];
           if (redirectPath) {
-            window.location.href = redirectPath;
+            window.location.replace = redirectPath;
           }
         })
         .catch(error => {
           console.error('Error loading redirect map:', error);
         });
-    };
+    });
 
     function removePrefix(str, prefix) {
       if (str.startsWith(prefix)) {
