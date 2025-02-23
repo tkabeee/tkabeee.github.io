@@ -11,7 +11,9 @@
           const currentHash = removePrefix(window.location.hash, '#!/');
           const redirectPath = rMap[currentHash];
           if (redirectPath) {
-            window.location.href = redirectPath;
+            // window.location.href = redirectPath;
+            const h1 = document.querySelector('h1');
+            h1.textContent = currentHash
           }
         })
         .catch(error => {
@@ -28,6 +30,6 @@
   </script>
 </head>
 <body>
-  <h1>Hello Example!</h1>
+  <h1>...</h1>
 </body>
 </html>
